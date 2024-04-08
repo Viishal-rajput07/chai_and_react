@@ -39,6 +39,13 @@ function App() {
         >
           Gray
         </button>
+        <button
+          className="bg-black px-3 py-1 rounded-full outline-none"
+          onClick={() => setColor("#000")}
+        >
+          Black
+        </button>
+        
       </div>
     </div>
   );
