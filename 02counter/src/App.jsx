@@ -10,16 +10,11 @@ function App() {
     if (count < 15) {
 
       // Interview question :- what will be the value of count if we use setCount multiple times
+      // setCount(count + 1);
+      // setCount(count + 1);
 
       // if we use this mutiple times count will increase only by one
-      
       // Beacause the diffing alfo fiber sents it in batches and when it see that one task is done multiple times  it ignore other and send one
-
-      // setCount(count + 1);
-      // setCount(count + 1);
-      // setCount(count + 1);
-      // setCount(count + 1);
-
 
       // But this will update count by 2 times
       // setCount(++count);

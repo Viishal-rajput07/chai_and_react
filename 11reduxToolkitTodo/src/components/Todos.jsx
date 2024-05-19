@@ -14,7 +14,7 @@ function Todos({ todo }) {
   };
 
   const toggleCompeleted = (id) => {
-    dispatch(togglecomplete({id: id}))
+    dispatch(togglecomplete({id}))
   }
 
   return (

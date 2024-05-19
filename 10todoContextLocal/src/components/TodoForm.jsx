@@ -17,7 +17,7 @@ function TodoForm() {
 
   return (
     <div>
-      <form onSubmit={add} className="flex">
+      <form onSubmit={add} className="space-x-3 mt-12">
         <input
           type="text"
           value={todo}

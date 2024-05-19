@@ -4,8 +4,6 @@ import { addTodo } from "../feature/todo/todoSlice";
 
 function TodoForm() {
   const [text, setText] = useState("");
-  // const [completed, setCompleted] = useState(false);
-  
 
   const dispatch = useDispatch();
 
@@ -14,9 +12,8 @@ function TodoForm() {
 
     if(text.length > 0){
       dispatch(addTodo(text));
-    setText("");
+      setText("");
     }
-    
 
   };
 
