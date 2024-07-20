@@ -14,7 +14,7 @@ function EditPost() {
             service.getPost(slug).then((post)=>{
                 if(post){
                     setPosts(post)
-                }
+                } 
             })
         }
         else{

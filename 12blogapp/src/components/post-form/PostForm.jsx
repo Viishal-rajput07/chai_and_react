@@ -1,9 +1,10 @@
 import React, { useCallback, useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { Button, Input, RTE, Select } from '..'
-import appwriteService from '../../appwrite/config'
+import service from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import conf from '../../conf/conf'
 
 
 export default function PostForm({ post }) {
@@ -22,13 +23,13 @@ export default function PostForm({ post }) {
 
     const submit = async (data) => {
         if (post) {
-            const file = data.image[0] ? await appwriteService.uploadFile(data.image[0]) : null
+            const file = data.image[0] ? await service.uploadFile(data.image[0]) : null
 
             if (file) {
-                appwriteService.deleteFile(post.image)
+                service.deleteFile(post.image)
             }
 
-            const dbPost = await appwriteService.updatePost(post.$id, {
+            const dbPost = await service.updatePost(post.$id, {
                 ...data,
                 image: file ? file.$id : undefined,
             })
@@ -39,12 +40,12 @@ export default function PostForm({ post }) {
             }
         }
         else {
-            const file = await appwriteService.uploadFile(date.image[0]);
+            const file = await service.uploadFile(date.image[0]);
 
             if (file) {
                 const fileId = file.$id;
                 data.image = fileId;
-                const dbPost = await appwriteService.createPost({ ...data, userId: userData.$id })
+                const dbPost = await service.createPost({ ...data, userId: userData.$id })
 
                 if (dbPost) {
                     navigate(`/post/${dbPost.$id}`)
@@ -95,7 +96,7 @@ export default function PostForm({ post }) {
             </div>
             <div className="w-1/3 px-2">
                 <Input
-                    label="Featured Image :"
+                    label="Image :"
                     type="file"
                     className="mb-4"
                     accept="image/png, image/jpg, image/jpeg, image/gif"
@@ -104,7 +105,7 @@ export default function PostForm({ post }) {
                 {post && (
                     <div className="w-full mb-4">
                         <img
-                            src={appwriteService.getFilePreview(post.image)}
+                            src={service.getFilePreview(post.image)}
                             alt={post.title}
                             className="rounded-lg"
                         />

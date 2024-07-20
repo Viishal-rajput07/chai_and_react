@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import authService from "../appwrite/auth";
+import service from "../appwrite/auth";
 import { login as authLogin } from "../store/authSlice";
 import { Logo, Button, Input } from "./index";
 
@@ -15,9 +15,9 @@ function Login() {
   const login = async (data) => {
     setError(""); 
     try {
-      const session = await authService.login(data);
+      const session = await service.login(data);
       if (session) {
-        const userData = await authService.getCurrentUser();
+        const userData = await service.getCurrentUser();
         if (userData) dispatch(authLogin(userData));
         navigate("/");
       }
@@ -54,7 +54,7 @@ function Login() {
           <div className="space-y-5">
             <Input
               label="Email"
-              placeHolder="Enter your Email"
+              placeholder="Enter your Email"
               type="email"
               {...register("email", {
                 required: true,
@@ -67,9 +67,10 @@ function Login() {
             />
 
             <Input
+            
               label="Password"
               type="password"
-              placeHolder="Enter your password"
+              placeholder="Enter your password"
               {...register("password", {
                 required: true,
               })}
