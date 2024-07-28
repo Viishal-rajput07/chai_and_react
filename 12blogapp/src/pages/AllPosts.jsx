@@ -6,11 +6,14 @@ function AllPosts() {
 
     const [posts, setPosts] = useState([])
 
-    service.getPosts([]).then((post)=>{
-        if(posts){
-            setPosts(post.documents)
-        }
-    })
+    useEffect(() => {
+        service.getPosts([]).then((post)=>{
+            if(post){
+                setPosts(post.documents)
+            }
+        })
+    }, [])
+    
   return (
     <div className='w-full py-8'>
         <Container >

@@ -4,7 +4,6 @@ import { Button, Input, RTE, Select } from '..'
 import service from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
-import conf from '../../conf/conf'
 
 
 export default function PostForm({ post }) {
@@ -40,7 +39,7 @@ export default function PostForm({ post }) {
             }
         }
         else {
-            const file = await service.uploadFile(date.image[0]);
+            const file = await service.uploadFile(data.image[0]);
 
             if (file) {
                 const fileId = file.$id;
@@ -54,8 +53,8 @@ export default function PostForm({ post }) {
         }
     };
 
-    const slugTransform = useCallback(() => {
-        if (value && value === 'string')
+    const slugTransform = useCallback((value) => {
+        if (value && typeof value === 'string')
             return value
                 .trim()
                 .toLowerCase()
@@ -92,7 +91,7 @@ export default function PostForm({ post }) {
                         setValue('slug', slugTransform(e.currentTarget.value), { shouldValidate: true })
                     }}
                 />
-                <RTE label='content :' name="content" control={control} defaultValue={getValues('content')} />
+                <RTE label='content :' name="description" control={control} defaultValue={getValues('description')} />
             </div>
             <div className="w-1/3 px-2">
                 <Input
