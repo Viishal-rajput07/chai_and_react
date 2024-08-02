@@ -10,7 +10,7 @@ function Post() {
     const {slug } = useParams()
     const navigate = useNavigate()
 
-    const userData = useSelector((state) => state.auth.status)
+    const userData = useSelector((state) => state.auth.userData)
 
     const isAuthor = post && userData ? post.userId === userData.$id : false;
 
@@ -59,8 +59,8 @@ function Post() {
                     <h1 className="text-2xl font-bold">{post.title}</h1>
                 </div>
                 <div className="browser-css">
-                    {parse(post.content)}
-                    </div>
+                    {parse(post.description)}
+                </div>
             </Container>
         </div>
     ) : null;

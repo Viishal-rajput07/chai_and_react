@@ -11,8 +11,8 @@ export default function PostForm({ post }) {
     const { register, handleSubmit, watch, setValue, getValues, control } = useForm({
         defaultValues: {
             title: post?.title || "",
-            slug: post?.slug || "",
-            content: post?.content || "",
+            slug: post?.$id || "",
+            description: post?.description || "",
             status: post?.status || "active",
         },
     })
@@ -21,35 +21,46 @@ export default function PostForm({ post }) {
     const userData = useSelector((state) => state.auth.userData)
 
     const submit = async (data) => {
-        if (post) {
-            const file = data.image[0] ? await service.uploadFile(data.image[0]) : null
-
-            if (file) {
-                service.deleteFile(post.image)
+        try {
+            let fileId;
+            if (data.image?.[0]) {
+                console.log('Uploading file:', data.image[0]);
+                const file = await service.uploadFile(data.image[0]);
+                fileId = file.$id;
+                console.log('File uploaded with ID:', fileId);
             }
 
-            const dbPost = await service.updatePost(post.$id, {
-                ...data,
-                image: file ? file.$id : undefined,
-            })
+            if (post) {
+                if (fileId) {
+                    await service.deleteFile(post.image);
+                }
 
-
-            if (dbPost) {
-                navigate(`/post/${dbPost.$id}`)
-            }
-        }
-        else {
-            const file = await service.uploadFile(data.image[0]);
-
-            if (file) {
-                const fileId = file.$id;
-                data.image = fileId;
-                const dbPost = await service.createPost({ ...data, userId: userData.$id })
+                const updatedData = {
+                    ...data,
+                    image: fileId ? fileId : post.image, // Use the new fileId or existing image
+                };
+                console.log('Updating post with data:', updatedData);
+                const dbPost = await service.updatePost(post.$id, updatedData);
 
                 if (dbPost) {
-                    navigate(`/post/${dbPost.$id}`)
+                    navigate(`/post/${dbPost.$id}`);
+                }
+            } else {
+                if (!fileId) {
+                    throw new Error('Image is required for new posts');
+                }
+
+                data.image = fileId;
+                const newData = { ...data, userid: userData.$id };
+                console.log('Creating post with data:', newData);
+                const dbPost = await service.createPost(newData);
+
+                if (dbPost) {
+                    navigate(`/post/${dbPost.$id}`);
                 }
             }
+        } catch (error) {
+            console.error('Error submitting form:', error);
         }
     };
 
@@ -98,7 +109,7 @@ export default function PostForm({ post }) {
                     label="Image :"
                     type="file"
                     className="mb-4"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
+                    // accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: !post })}
                 />
                 {post && (

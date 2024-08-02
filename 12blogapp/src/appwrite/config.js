@@ -15,7 +15,7 @@ export class Service {
     this.bucket = new Storage(this.client);
   }
 
-  async createPost({ title, slug, description, image, status, userId }) {
+  async createPost({ title, slug, description, image, status, userid }) {
     try {
       return await this.databases.createDocument(
         conf.appwriteDatabaseId,
@@ -26,7 +26,7 @@ export class Service {
           description,
           image,
           status,
-          userId,
+          userid,
         }
       );
     } catch (error) {
@@ -98,11 +98,12 @@ export class Service {
 
   async uploadFile(file) {
     try {
-      return await this.bucket.createFile(
+       return await this.bucket.createFile(
         conf.appwriteBucketId,
         ID.unique(),
         file
       );
+   
     } catch (error) {
       console.log("Appwrite serive :: uploadFile :: error", error);
       return false;
