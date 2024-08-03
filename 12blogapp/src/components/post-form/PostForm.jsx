@@ -109,7 +109,7 @@ export default function PostForm({ post }) {
                     label="Image :"
                     type="file"
                     className="mb-4"
-                    // accept="image/png, image/jpg, image/jpeg, image/gif"
+                    accept="image/png, image/jpg, image/jpeg, image/gif"
                     {...register("image", { required: !post })}
                 />
                 {post && (
