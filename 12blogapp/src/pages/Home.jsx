@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react'
 import service from '../appwrite/config'
-import { Container, PostCard } from '../components'
+import { Container, PostCard, Loader } from '../components'
 
 function Home() {
 
+    const[loading, setLoading] = useState(true)
     const [posts, setPosts] = useState([])
 
     useEffect(() => {
@@ -12,9 +13,15 @@ function Home() {
                 setPosts(post.documents)
             }
         })
+        .finally(()=> setLoading(false))
     }, [])
 
-    if (posts.length === 0) {
+    if(loading){
+        return (
+            <Loader />
+        )
+    }
+    else if (posts.length === 0 )  {
         return (
             <div className="w-full py-8 mt-4 text-center">
                 <Container>
@@ -29,7 +36,8 @@ function Home() {
             </div>
         )
     }
-    return (
+    else{
+        return (
         <div className='w-full py-8'>
             <Container>
                 <div className='flex flex-wrap'>
@@ -40,8 +48,8 @@ function Home() {
                     ))}
                 </div>
             </Container>
-        </div>
-    )
+        </div>)
+    }
 }
 
 export default Home

@@ -26,8 +26,9 @@ export class Service {
           description,
           image,
           status,
+          userid
         }
-    } catch (error) {
+    )} catch (error) {
       console.log("Appwrite serive :: createPost :: error", error);
     }
   }
@@ -93,7 +94,6 @@ export class Service {
   }
 
   // file upload service
-
   async uploadFile(file) {
     try {
        return await this.bucket.createFile(
@@ -122,7 +122,6 @@ export class Service {
   }
 
     getFilePreview(fileId) {
-    
       try {
         return this.bucket.getFilePreview(conf.appwriteBucketId, fileId);
         

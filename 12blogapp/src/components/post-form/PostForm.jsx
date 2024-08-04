@@ -4,6 +4,7 @@ import { Button, Input, RTE, Select } from '..'
 import service from '../../appwrite/config'
 import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { useState } from 'react'
 
 
 export default function PostForm({ post }) {
@@ -62,6 +63,7 @@ export default function PostForm({ post }) {
         } catch (error) {
             console.error('Error submitting form:', error);
         }
+        
     };
 
     const slugTransform = useCallback((value) => {
@@ -84,7 +86,9 @@ export default function PostForm({ post }) {
 
         return () => subscription.unsubscribe();
     }, [watch, slugTransform, setValue])
-    return (
+
+
+    return(
         <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
             <div className="w-2/3 px-2">
                 <Input
@@ -132,5 +136,5 @@ export default function PostForm({ post }) {
                 </Button>
             </div>
         </form>
-    )
+    ) 
 }

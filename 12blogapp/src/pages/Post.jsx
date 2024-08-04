@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import {Link, useNavigate, useParams} from 'react-router-dom'
 import service from '../appwrite/config'
-import {Button, Container} from '../components'
+import {Button, Container, Loader} from '../components'
 import parse from 'html-react-parser'
 import  {useSelector} from 'react-redux'
 
 function Post() {
+    const [loading, setLoading] = useState(true)
     const [post, setPost] = useState(null)
     const {slug } = useParams()
     const navigate = useNavigate()
@@ -20,6 +21,7 @@ function Post() {
                 if(post) setPost(post)
                 else navigate('/')
             })
+            .finally(()=> setLoading(false))
         }
         else navigate('/')
     }, [slug, navigate])
@@ -32,10 +34,10 @@ function Post() {
             }
         })
     }
-  return post ? (
+  return  post && !loading ? (
         <div className="py-8">
             <Container>
-                <div className="w-full flex justify-center mb-4 relative border rounded-xl p-2">
+                <div className="w-full flex justify-center  mb-4 relative  rounded-xl p-2">
                     <img
                         src={service.getFilePreview(post.image)}
                         alt={post.title}
@@ -43,7 +45,7 @@ function Post() {
                     />
 
                     {isAuthor && (
-                        <div className="absolute right-6 top-6">
+                        <div className="fixed right-6 top-20">
                             <Link to={`/edit-post/${post.$id}`}>
                                 <Button bgColor="bg-green-500" className="mr-3">
                                     Edit
@@ -56,14 +58,15 @@ function Post() {
                     )}
                 </div>
                 <div className="w-full mb-6">
-                    <h1 className="text-2xl font-bold">{post.title}</h1>
+                    <h1 className="text-5xl font-bold">{post.title}</h1>
                 </div>
-                <div className="browser-css">
+                <div className="text-lg">
                     {parse(post.description)}
                 </div>
             </Container>
         </div>
-    ) : null;
+    ) : <Loader />
+
 
 }
 

@@ -13,7 +13,8 @@ import PostCard from "./PostCard";
 import Select from "./Select";
 import PostForm from "./post-form/PostForm";
 import AuthLayout from './AuthLayout'
+import Loader from "./Loader";
  
 
 
-export {Header, Footer, Logo, LogoutBtn, Container, RTE, Login, Signup, Protected, Button, Select, Input, PostCard, PostForm, AuthLayout}
+export {Header, Footer, Logo, LogoutBtn, Container, RTE, Login, Signup, Protected, Button, Select, Input, PostCard, PostForm, AuthLayout, Loader}
